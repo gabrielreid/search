@@ -653,7 +653,8 @@ public class MapReduceIndexerTool extends Configured implements Tool {
     options.mappers = mappers;
     
     FileSystem fs = options.outputDir.getFileSystem(job.getConfiguration());
-    if (fs.exists(options.outputDir) && !delete(options.outputDir, true, fs)) {
+    if (fs.exists(options.outputDir)) {
+      LOG.error("Output directory '{}' already exists", options.outputDir);
       return -1;
     }
     Path outputResultsDir = new Path(options.outputDir, RESULTS_DIR);
